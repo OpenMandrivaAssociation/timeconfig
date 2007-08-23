@@ -16,7 +16,7 @@ Requires:	usermode-consoleonly
 BuildRequires:	gettext newt-devel popt-devel slang-devel
 Patch0:		timeconfig-gmt.patch.bz2
 Patch1:		timeconfig-mdkconf.patch.bz2
-Requires(post):		fileutils, gawk
+Requires(post):		coreutils, gawk
 BuildRoot:	%{_tmppath}/%{name}-root
 
 %description
