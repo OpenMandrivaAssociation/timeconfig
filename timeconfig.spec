@@ -1,6 +1,6 @@
 %define name	timeconfig
 %define version	3.2
-%define release	%mkrel 11
+%define release	%mkrel 12
 
 Name:		%{name}
 Version:	%{version}
