@@ -1,6 +1,6 @@
 %define name	timeconfig
 %define version	3.2
-%define release	%mkrel 12
+%define release	%mkrel 13
 
 Name:		%{name}
 Version:	%{version}
@@ -16,7 +16,7 @@ Requires:	usermode-consoleonly
 BuildRequires:	gettext newt-devel popt-devel slang-devel
 Patch0:		timeconfig-gmt.patch.bz2
 Patch1:		timeconfig-mdkconf.patch.bz2
-Requires(post):		coreutils, gawk
+Requires(post): coreutils, gawk
 BuildRoot:	%{_tmppath}/%{name}-root
 
 %description
@@ -39,15 +39,16 @@ make PREFIX=$RPM_BUILD_ROOT%{_prefix} install
 rm -f $RPM_BUILD_ROOT/usr/lib/zoneinfo
 
 # fix indonesian locale, its language code is 'id' not 'in'.
-mkdir -p $RPM_BUILD_ROOT/usr/share/locale/id/LC_MESSAGES
+mkdir -p $RPM_BUILD_ROOT%{_datadir}/locale/id/LC_MESSAGES
 
 # (fg) 20001004 In replacement of kdesu...
 mkdir -p $RPM_BUILD_ROOT/%{_sysconfdir}/{pam.d,security/console.apps}
 
-install -m644 %{SOURCE5} $RPM_BUILD_ROOT/%{_sysconfdir}/pam.d/timeconfig-auth
-install -m644 %{SOURCE6} $RPM_BUILD_ROOT/%{_sysconfdir}/security/console.apps/timeconfig-auth
+install -m644 %{SOURCE5} $RPM_BUILD_ROOT/%{_sysconfdir}/pam.d/timeconfig
+install -m644 %{SOURCE6} $RPM_BUILD_ROOT/%{_sysconfdir}/security/console.apps/timeconfig
 
-ln -fs /usr/bin/consolehelper $RPM_BUILD_ROOT/%{_sbindir}/timeconfig-auth
+mkdir -p %{buildroot}%{_bindir}
+ln -fs %{_bindir}/consolehelper $RPM_BUILD_ROOT/%{_bindir}/timeconfig
 
 # remove unpackaged files
 rm -rf $RPM_BUILD_ROOT%{_mandir}/pt_BR/
@@ -73,6 +74,7 @@ fi
 %files -f %{name}.lang
 %defattr(-,root,root)
 %{_sbindir}/*
+%{_bindir}/*
 %{_mandir}/man*/*
-%config(noreplace) %{_sysconfdir}/pam.d/timeconfig-auth
-%config(noreplace) %{_sysconfdir}/security/console.apps/timeconfig-auth
+%config(noreplace) %{_sysconfdir}/pam.d/timeconfig
+%config(noreplace) %{_sysconfdir}/security/console.apps/timeconfig
