@@ -5,7 +5,7 @@
 Name:		%{name}
 Version:	%{version}
 Release:	%{release}
-Summary:	Text mode tools for setting system time parameters.
+Summary:	Text mode tools for setting system time parameters
 License:	GPL
 Group:		System/Configuration/Other
 Source0:	%{name}-%{version}.tar.bz2
