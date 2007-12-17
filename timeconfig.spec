@@ -17,7 +17,6 @@ BuildRequires:	gettext newt-devel popt-devel slang-devel
 Patch0:		timeconfig-gmt.patch.bz2
 Patch1:		timeconfig-mdkconf.patch.bz2
 Requires(post): coreutils, gawk
-BuildRoot:	%{_tmppath}/%{name}-root
 
 %description
 The timeconfig package contains two utilities: timeconfig and
