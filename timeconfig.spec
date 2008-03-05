@@ -1,10 +1,9 @@
 %define name	timeconfig
 %define version	3.2
-%define release	%mkrel 13
 
 Name:		%{name}
 Version:	%{version}
-Release:	%{release}
+Release:	%mkrel 14
 Summary:	Text mode tools for setting system time parameters
 License:	GPL
 Group:		System/Configuration/Other
