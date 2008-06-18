@@ -3,7 +3,7 @@
 
 Name:		%{name}
 Version:	%{version}
-Release:	%mkrel 14
+Release:	%mkrel 15
 Summary:	Text mode tools for setting system time parameters
 License:	GPL
 Group:		System/Configuration/Other
