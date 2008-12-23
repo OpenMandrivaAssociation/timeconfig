@@ -1,22 +1,24 @@
-%define name	timeconfig
-%define version	3.2
-
-Name:		%{name}
-Version:	%{version}
-Release:	%mkrel 15
 Summary:	Text mode tools for setting system time parameters
+Name:		timeconfig
+Version:	3.2
+Release:	%mkrel 16
 License:	GPL
 Group:		System/Configuration/Other
 Source0:	%{name}-%{version}.tar.bz2
 Source5:	timeconfig.pamd
 Source6:	timeconfig.apps
+Patch0:		timeconfig-gmt.patch
+Patch1:		timeconfig-mdkconf.patch
+Patch2:		timeconfig-3.2-format_not_a_string_literal_and_no_format_arguments.diff
+Patch3:		timeconfig-3.2-LDFLAGS.diff
 Requires:	initscripts
 Requires:	usermode-consoleonly
-BuildRequires:	gettext newt-devel popt-devel slang-devel
-Patch0:		timeconfig-gmt.patch.bz2
-Patch1:		timeconfig-mdkconf.patch.bz2
+BuildRequires:	gettext
+BuildRequires:	newt-devel
+BuildRequires:	popt-devel
+BuildRequires:	slang-devel
 Requires(post): coreutils, gawk
-BuildRoot:	%{_tmppath}/%{name}-root
+BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
 The timeconfig package contains two utilities: timeconfig and
@@ -26,36 +28,38 @@ setclock tool sets the hardware clock on the system to the current
 time stored in the system clock.
 
 %prep
+
 %setup -q
 %patch0 -p0 -b .gmt
 %patch1 -p0 -b .mdkconf
+%patch2 -p0 -b .format_not_a_string_literal_and_no_format_arguments
+%patch3 -p0 -b .LDFLAGS
 
 %build
-make RPM_OPT_FLAGS="$RPM_OPT_FLAGS"
+make RPM_OPT_FLAGS="%{optflags}" LDFLAGS="%{ldflags}"
 
 %install
-make PREFIX=$RPM_BUILD_ROOT%{_prefix} install
-rm -f $RPM_BUILD_ROOT/usr/lib/zoneinfo
+rm -rf %{buildroot}
+
+make PREFIX=%{buildroot}%{_prefix} install
+rm -f %{buildroot}/usr/lib/zoneinfo
 
 # fix indonesian locale, its language code is 'id' not 'in'.
-mkdir -p $RPM_BUILD_ROOT%{_datadir}/locale/id/LC_MESSAGES
+mkdir -p %{buildroot}%{_datadir}/locale/id/LC_MESSAGES
 
 # (fg) 20001004 In replacement of kdesu...
-mkdir -p $RPM_BUILD_ROOT/%{_sysconfdir}/{pam.d,security/console.apps}
+mkdir -p %{buildroot}/%{_sysconfdir}/{pam.d,security/console.apps}
 
-install -m644 %{SOURCE5} $RPM_BUILD_ROOT/%{_sysconfdir}/pam.d/timeconfig
-install -m644 %{SOURCE6} $RPM_BUILD_ROOT/%{_sysconfdir}/security/console.apps/timeconfig
+install -m644 %{SOURCE5} %{buildroot}/%{_sysconfdir}/pam.d/timeconfig
+install -m644 %{SOURCE6} %{buildroot}/%{_sysconfdir}/security/console.apps/timeconfig
 
 mkdir -p %{buildroot}%{_bindir}
-ln -fs %{_bindir}/consolehelper $RPM_BUILD_ROOT/%{_bindir}/timeconfig
+ln -fs %{_bindir}/consolehelper %{buildroot}/%{_bindir}/timeconfig
 
 # remove unpackaged files
-rm -rf $RPM_BUILD_ROOT%{_mandir}/pt_BR/
+rm -rf %{buildroot}%{_mandir}/pt_BR/
 
 %{find_lang} %{name}
-
-%clean
-rm -rf $RPM_BUILD_ROOT
 
 %post
 if [ -L /etc/localtime ]; then
@@ -69,6 +73,9 @@ if [ -L /etc/localtime ]; then
 	echo "ZONE=\"$_FNAME\"" | sed -e "s|.*/zoneinfo/||" >> /etc/sysconfig/clock
     fi
 fi
+
+%clean
+rm -rf %{buildroot}
 
 %files -f %{name}.lang
 %defattr(-,root,root)
