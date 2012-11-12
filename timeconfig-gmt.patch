@@ -1,0 +1,11 @@
+--- timeconfig.c	Thu Jun 17 06:23:55 1999
++++ timeconfig.c-chmou	Tue Dec 14 16:30:18 1999
+@@ -221,6 +221,8 @@
+ 	      modeptr->zonefile = strdup(start);
+ 	    else
+ 	      modeptr->zonefile = NULL;
++	} else if (!strncmp("GMT=", start, 4)) {
++		continue;
+ 	} else {
+ 	    fprintf(stderr, 
+ 		_("%s: line %d unexpected in /etc/sysconfig/clock:\n"),

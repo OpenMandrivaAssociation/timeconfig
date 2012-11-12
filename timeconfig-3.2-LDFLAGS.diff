@@ -1,0 +1,20 @@
+--- Makefile	2000-06-07 17:36:57.000000000 +0200
++++ Makefile.oden	2008-12-23 14:33:16.000000000 +0100
+@@ -3,6 +3,7 @@
+ CFLAGS = $(RPM_OPT_FLAGS) -DVERSION=\"$(VERSION)\" $(EXTRAFLAGS)
+ LOADLIBES = -lpopt -lnewt -lm
+ SUBDIRS = po
++LDFLAGS = 
+ 
+ all: subdirs timeconfig
+ 
+@@ -13,6 +14,9 @@
+ 	done && test -z "$$fail"
+ 
+ timeconfig: timeconfig.o 
++	gcc $(CFLAGS) $(LDFLAGS) -o timeconfig timeconfig.c \
++	$(LOADLIBES)
++
+ timeconfig.o : timeconfig.c
+ 
+ install:

@@ -1,0 +1,44 @@
+--- timeconfig.c-chmou	Thu Dec 30 19:38:25 1999
++++ timeconfig.c	Thu Dec 30 19:40:49 1999
+@@ -262,6 +262,33 @@
+             { 0, 0, 0, 0, 0 }
+         };
+ 
++  /* Standard Mandrake colors */
++    const struct newtColors colors = {
++	    "cyan", "black", 			/* root fg, bg */
++	    "black", "blue",			/* border fg, bg */
++	    "white", "blue",			/* window fg, bg */
++	    "white", "black",			/* shadow fg, bg */
++	    "white", "blue",			/* title fg, bg */
++	    "yellow", "cyan",			/* button fg, bg */
++	    "white", "cyan",			/* active button fg, bg */
++	    "yellow", "blue",			/* checkbox fg, bg */
++	    "blue", "brown",			/* active checkbox fg, bg */
++	    "yellow", "blue",			/* entry box fg, bg */
++	    "white", "blue",			/* label fg, bg */
++	    "black", "cyan",			/* listbox fg, bg */
++	    "yellow", "cyan",			/* active listbox fg, bg */
++	    "white", "blue",			/* textbox fg, bg */
++	    "cyan", "black",			/* active textbox fg, bg */
++	    "white", "blue",			/* help line */
++	    "yellow", "blue",			/* root text */
++	    "blue",					/* scale full */
++	    "red",					/* scale empty */
++	    "blue", "cyan",				/* disabled entry fg, bg */
++	    "white", "blue",			/* compact button fg, bg */
++	    "yellow", "red",			/* active & sel listbox */
++	    "black", "brown"			/* selected listbox */
++    };
++
+     setlocale(LC_ALL, ""); 
+     bindtextdomain("timeconfig","/usr/share/locale"); 
+     textdomain("timeconfig"); 
+@@ -330,6 +357,7 @@
+ 	}
+ 
+ 	newtInit();
++	newtSetColors(colors);
+ 	newtCls();
+ 
+ 	newtPushHelpLine(_("  <Tab>/<Alt-Tab> between elements  |  <Space> selects |  <F12> next screen"));

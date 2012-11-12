@@ -1,0 +1,13 @@
+--- timeconfig.c	2008-12-23 14:37:40.000000000 +0100
++++ timeconfig.c.oden	2008-12-23 14:37:11.000000000 +0100
+@@ -309,8 +309,8 @@ int main(int argc, char ** argv) {
+ 
+     timezone = poptGetArg(optCon);
+     if (timezone && poptGetArg(optCon)) {
+-	sprintf(_("%s: only one argument (the timezone) may be used\n"),
+-		 progName);
++	sprintf("%s", _("%s: only one argument (the timezone) may be used\n"),
++		progName);
+ 	return 2;
+     }
+ 
