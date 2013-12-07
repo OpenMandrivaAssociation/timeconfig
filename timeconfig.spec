@@ -1,7 +1,7 @@
 Summary:	Text mode tools for setting system time parameters
 Name:		timeconfig
 Version:	3.2
-Release:	24
+Release:	25
 License:	GPL
 Group:		System/Configuration/Other
 Source0:	%{name}-%{version}.tar.bz2
